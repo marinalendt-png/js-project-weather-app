@@ -8,13 +8,16 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+// Define a place
 const place = {
     name: "Stockholm",
     lat: 59.3293,
     lon: 18.0686,
 };
+//Function that maps weather symbols (numbers) from SMHI API to readable text
 const mapWeatherSymbol = (symbol) => {
     var _a;
+    // Key-value mapping: weather symbol number → description
     const mapping = {
         1: "Clear sky",
         2: "Nearly clear sky",
@@ -44,23 +47,31 @@ const mapWeatherSymbol = (symbol) => {
         26: "Moderate snow",
         27: "Heavy snow",
     };
+    // Return the matching description, or "Unknown" if the symbol isn't in the list
     return (_a = mapping[symbol]) !== null && _a !== void 0 ? _a : "Unknown";
 };
-//https://opendata-download-metfcst.smhi.se/api/category/pmp3g/version/2/geotype/point/lon/${place.lon}/lat/${place.lat}/data.json`;
-//https://opendata-download-metfcst.smhi.se/api/category/snow1g/version/1/geotype/point/lon/18.062639/lat/59.329468/data.json?timeseries=48
-const weatherURL = `https://opendata-download-metfcst.smhi.se/api/category/snow1g/version/1/geotype/point/lon/18.062639/lat/59.329468/data.json?timeseries=24`;
+// The SMHI API endpoint for point forecasts (pmp3g)
+const weatherURL = `https://opendata-download-metfcst.smhi.se/api/category/pmp3g/version/2` +
+    `/geotype/point/lon/${place.lon}/lat/${place.lat}/data.json`;
+// Variable to store the current weather once we fetch it
 let currentWeather;
-// const weatherURL = ``;
+console.log(weatherURL);
+// Fetch weather data from SMHI API
 const fetchWeather = () => __awaiter(void 0, void 0, void 0, function* () {
-    var _a, _b;
+    var _a, _b, _c;
+    // Fetch the weather JSON data from the SMHI API
     const response = yield fetch(weatherURL);
-    if (!response.ok)
-        throw new Error(`HTTP error! status: ${response.status}`);
+    // If something went wrong (e.g., 404 or 500), throw an error
+    if (!response.ok) {
+        throw new Error(`Error fetching weather data: ${response.statusText}`);
+    }
+    // Parse the JSON response and cast it to our SmhiResponse type
     const data = yield response.json();
-    //const first = data.timeSeries ? [0];
-    const first = data.timeSeries[0];
-    const temp = (_a = first === null || first === void 0 ? void 0 : first.parameters.find(p => p.name === "t")) === null || _a === void 0 ? void 0 : _a.values[0];
-    const symbol = (_b = first === null || first === void 0 ? void 0 : first.parameters.find(p => p.name === "Wsymb2")) === null || _b === void 0 ? void 0 : _b.values[0];
+    // Get the first time step (usually the current or next available forecast)
+    const first = (_a = data.timeSeries) === null || _a === void 0 ? void 0 : _a[0];
+    // Find the temperature ("t") and weather symbol ("Wsymb2") from parameters
+    const temp = (_b = first === null || first === void 0 ? void 0 : first.parameters.find(p => p.name === "t")) === null || _b === void 0 ? void 0 : _b.values[0];
+    const symbol = (_c = first === null || first === void 0 ? void 0 : first.parameters.find(p => p.name === "Wsymb2")) === null || _c === void 0 ? void 0 : _c.values[0];
     currentWeather = {
         temperature: temp !== null && temp !== void 0 ? temp : 0,
         condition: mapWeatherSymbol(symbol !== null && symbol !== void 0 ? symbol : 0)
@@ -68,40 +79,3 @@ const fetchWeather = () => __awaiter(void 0, void 0, void 0, function* () {
     console.log(currentWeather);
 });
 fetchWeather();
-// const places = [
-//   { name: "Stockholm", lat: 59.3293, lon: 18.0686 },
-//   { name: "Gothenburg", lat: 57.7089, lon: 11.9746 },
-// ]
-// const name: string = "Weather App";
-// interface WeatherData {
-//   temperature: number;
-//   city: string;
-//   time: string;
-//   description: string;
-//   icon: string;
-//   //forecast: Forecast[];
-// }
-// const weatherURL = "https://opendata-download-metfcst.smhi.se/api/category/snow1g/version/1/geotype/point/lon/18.062639/lat/59.329468/data.json?timeseries=24";
-// // let mockupData: any[] = [];
-// interface currentWeatherData {
-//   airTemp: number;
-//   condition: string;
-// }
-// let currentWeather: currentWeatherData
-// const fetchWeather = async () => {
-//   try {
-//     const response = await fetch(weatherURL);
-//     if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-//     const data = await response.json();
-//     const firstTime = data.timeSeries[0]
-//     const temp = firstTime.parameteres.find((p: any) => p.name) === "t").values [0]
-//     currentWeather = {
-//       airTemp: data.timeSeries[0].data.air_temperature,
-//       condition: data.timeSeries[0].data.symbol_code,
-//     }
-//     console.log(data.timeSeries[0].data);
-//   } catch (error) {
-//     console.error(`caught an error, ${error}`);
-//   }
-// };
-// fetchWeather();

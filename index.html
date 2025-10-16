@@ -2,19 +2,35 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=, initial-scale=1.0" />
   <link rel="stylesheet" href="style.css">
-  <title> Project-weather-app></title>
+  <title>Project-weather-app</title>
 </head>
 
 <body>
-  <h1>Hello</h1>
-  <div class="search-container">
-    <input type="text" id="city-input" placeholder="Location">
-    <button id="search-button">Search</button>
-  </div>
-  <script src="index.js"></script>
+  <main class="weather-container">
+
+    <div class="content">
+
+      <section class="current-weather">
+        <input type="text" id="city-input" placeholder="Location">
+        <button id="search-button">Search</button>
+        <h1 class="temp" id="temp">°C</h1>
+        <p class="city" id="city"></p>
+        <p class="desc" id="desc">—</p> <!-- weather description -->
+
+      </section>
+
+      <section class="forecast">
+        <ul class="days" id="forecast"></ul>
+      </section>
+    </div>
+  </main>
+  <footer>
+    <p>"Created by: Bubbles 2"</p>
+    <script src="index.js"></script>
+  </footer>
 </body>
 
 </html>
