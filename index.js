@@ -14,6 +14,12 @@ const place = {
     lat: 59.3293,
     lon: 18.0686,
 };
+const city = document.getElementById("city");
+const temperature = document.getElementById("temp");
+const description = document.getElementById("desc");
+const forecast = document.getElementById("forecast");
+const contentHolder = document.querySelector(".content");
+//const contentHolder = document.querySelector('.current-weather');
 //Function that maps weather symbols (numbers) from SMHI API to readable text
 const mapWeatherSymbol = (symbol) => {
     var _a;
@@ -58,7 +64,7 @@ let currentWeather;
 console.log(weatherURL);
 // Fetch weather data from SMHI API
 const fetchWeather = () => __awaiter(void 0, void 0, void 0, function* () {
-    var _a, _b, _c;
+    var _a, _b;
     // Fetch the weather JSON data from the SMHI API
     const response = yield fetch(weatherURL);
     // If something went wrong (e.g., 404 or 500), throw an error
@@ -68,14 +74,17 @@ const fetchWeather = () => __awaiter(void 0, void 0, void 0, function* () {
     // Parse the JSON response and cast it to our SmhiResponse type
     const data = yield response.json();
     // Get the first time step (usually the current or next available forecast)
-    const first = (_a = data.timeSeries) === null || _a === void 0 ? void 0 : _a[0];
+    const first = data === null || data === void 0 ? void 0 : data.timeSeries[0];
     // Find the temperature ("t") and weather symbol ("Wsymb2") from parameters
-    const temp = (_b = first === null || first === void 0 ? void 0 : first.parameters.find(p => p.name === "t")) === null || _b === void 0 ? void 0 : _b.values[0];
-    const symbol = (_c = first === null || first === void 0 ? void 0 : first.parameters.find(p => p.name === "Wsymb2")) === null || _c === void 0 ? void 0 : _c.values[0];
+    const temp = (_a = first === null || first === void 0 ? void 0 : first.parameters.find(p => p.name === "t")) === null || _a === void 0 ? void 0 : _a.values[0];
+    const symbol = (_b = first === null || first === void 0 ? void 0 : first.parameters.find(p => p.name === "Wsymb2")) === null || _b === void 0 ? void 0 : _b.values[0];
     currentWeather = {
         temperature: temp !== null && temp !== void 0 ? temp : 0,
         condition: mapWeatherSymbol(symbol !== null && symbol !== void 0 ? symbol : 0)
     };
+    city.textContent = "Stockholm";
+    temperature.textContent = `${currentWeather.temperature} °C`;
+    description.textContent = currentWeather.condition;
     console.log(currentWeather);
 });
 fetchWeather();

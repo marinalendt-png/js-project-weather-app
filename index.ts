@@ -1,9 +1,46 @@
+
+// Interfaces: These define the shape of data returned by the SMHI API
+// Each parameter in the API response (like temperature, wind speed, etc.)
+interface SmhiParameter {
+  name: string;
+  values: number[];
+}
+
+// data for a specific timestamp
+interface SmhiTimeSeries {
+  validTime: string;
+  parameters: SmhiParameter[];
+}
+//Full response object from the SMHI API
+interface SmhiResponse {
+  timeSeries: SmhiTimeSeries[];
+}
+
+interface currentWeather {
+  temperature: number
+  condition: string;
+}
+
+interface Forecast {
+  date: string;
+  temperature: number;
+  condition: string;
+}
+
 // Define a place
 const place = {
   name: "Stockholm",
   lat: 59.3293,
   lon: 18.0686,
 }
+
+const city = document.getElementById("city") as HTMLElement;
+const temperature = document.getElementById("temp") as HTMLElement;
+const description = document.getElementById("desc") as HTMLElement;
+const forecast = document.getElementById("forecast") as HTMLUListElement;
+const contentHolder = document.querySelector(".content") as HTMLElement;
+//const contentHolder = document.querySelector('.current-weather');
+
 
 //Function that maps weather symbols (numbers) from SMHI API to readable text
 const mapWeatherSymbol = (symbol: number): string => { //annotate type and its return
@@ -41,33 +78,7 @@ const mapWeatherSymbol = (symbol: number): string => { //annotate type and its r
   return mapping[symbol] ?? "Unknown";
 };
 
-// Interfaces: These define the shape of data returned by the SMHI API
-// Each parameter in the API response (like temperature, wind speed, etc.)
-interface SmhiParameter {
-  name: string;
-  values: number[];
-}
 
-// data for a specific timestamp
-interface SmhiTimeSeries {
-  validTime: string;
-  parameters: SmhiParameter[];
-}
-//Full response object from the SMHI API
-interface SmhiResponse {
-  timeSeries: SmhiTimeSeries[];
-}
-
-interface currentWeather {
-  temperature: number
-  condition: string;
-}
-
-interface Forecast {
-  date: string;
-  temperature: number;
-  condition: string;
-}
 // The SMHI API endpoint for point forecasts (pmp3g)
 const weatherURL = `https://opendata-download-metfcst.smhi.se/api/category/pmp3g/version/2` +
   `/geotype/point/lon/${place.lon}/lat/${place.lat}/data.json`;
@@ -87,7 +98,7 @@ const fetchWeather = async () => {
   // Parse the JSON response and cast it to our SmhiResponse type
   const data: SmhiResponse = await response.json();
   // Get the first time step (usually the current or next available forecast)
-  const first = data.timeSeries?.[0];
+  const first = data?.timeSeries[0];
   // Find the temperature ("t") and weather symbol ("Wsymb2") from parameters
   const temp = first?.parameters.find(p => p.name === "t")?.values[0];
   const symbol = first?.parameters.find(p => p.name === "Wsymb2")?.values[0];
@@ -96,6 +107,10 @@ const fetchWeather = async () => {
     temperature: temp ?? 0,
     condition: mapWeatherSymbol(symbol ?? 0)
   };
+
+  city.textContent = "Stockholm"
+  temperature.textContent = `${currentWeather.temperature} °C`
+  description.textContent = currentWeather.condition
 
   console.log(currentWeather);
 }
