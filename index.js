@@ -118,7 +118,7 @@ const fetchWeather = () => __awaiter(void 0, void 0, void 0, function* () {
                 if (dayForecast !== undefined) {
                     console.log("dayForecast ", ("0" + dayForecast.data.symbol_code.toString()).slice(-2));
                     return {
-                        day: dayNames[new Date(dayForecast.time).getUTCDay()],
+                        day: dayNames[new Date(dayForecast.time).getUTCDay()].substring(0, 3),
                         temperature: dayForecast.data.air_temperature,
                         weatherIcon: `./weather_icons/centered/solid/${isItDayTime ? 'day' : 'night'}/${("0" + dayForecast.data.symbol_code.toString()).slice(-2)}.svg`,
                         windSpeed: dayForecast.data.wind_speed
@@ -133,10 +133,10 @@ const fetchWeather = () => __awaiter(void 0, void 0, void 0, function* () {
     fiveDaysForecast.forEach((dayForecast) => {
         const listItem = document.createElement("ul");
         listItem.innerHTML = `
-      <h3>${dayForecast === null || dayForecast === void 0 ? void 0 : dayForecast.day}</h3>
+      <p>${dayForecast === null || dayForecast === void 0 ? void 0 : dayForecast.day}</p>
       <img src="${dayForecast === null || dayForecast === void 0 ? void 0 : dayForecast.weatherIcon}" alt="Weather icon" />
       <p>${dayForecast === null || dayForecast === void 0 ? void 0 : dayForecast.temperature} °C</p>
-      <p>Wind: ${dayForecast === null || dayForecast === void 0 ? void 0 : dayForecast.windSpeed} m/s</p>
+      <p>${dayForecast === null || dayForecast === void 0 ? void 0 : dayForecast.windSpeed} m/s</p>
     `;
         forecast.appendChild(listItem);
     });

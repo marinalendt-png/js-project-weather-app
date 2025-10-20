@@ -136,7 +136,7 @@ const fetchWeather = async () => {
         if (dayForecast !== undefined) {
           console.log("dayForecast ", ("0" + dayForecast.data.symbol_code.toString()).slice(-2));
           return {
-            day: dayNames[new Date(dayForecast.time).getUTCDay()],
+            day: dayNames[new Date(dayForecast.time).getUTCDay()].substring(0,3),
             temperature: dayForecast.data.air_temperature,
             weatherIcon: `./weather_icons/centered/solid/${isItDayTime ? 'day' : 'night'}/${("0" + dayForecast.data.symbol_code.toString()).slice(-2)}.svg`,
             windSpeed: dayForecast.data.wind_speed
@@ -151,10 +151,10 @@ const fetchWeather = async () => {
   fiveDaysForecast.forEach((dayForecast) => {
     const listItem = document.createElement("ul");
     listItem.innerHTML = `
-      <h3>${dayForecast?.day}</h3>
+      <p>${dayForecast?.day}</p>
       <img src="${dayForecast?.weatherIcon}" alt="Weather icon" />
       <p>${dayForecast?.temperature} °C</p>
-      <p>Wind: ${dayForecast?.windSpeed} m/s</p>
+      <p>${dayForecast?.windSpeed} m/s</p>
     `;
     forecast.appendChild(listItem);
   });
