@@ -41,9 +41,9 @@ const temperature = document.getElementById("temp");
 const time = document.getElementById("time");
 const description = document.getElementById("desc");
 const forecast = document.getElementById("forecast");
-const contentHolder = document.querySelector(".content");
 const weatherIcon = document.getElementById("weather-icon");
 const nextCityBtn = document.getElementById("next-city-btn");
+const contentHolder = document.querySelector(".content"); //first
 //Function that maps weather symbols (numbers) from SMHI API to readable text
 // const mapWeatherSymbol = (symbol: number): string => { //annotate type and its return
 // Key-value mapping: weather symbol number → description
@@ -154,6 +154,7 @@ const fetchWeather = () => __awaiter(void 0, void 0, void 0, function* () {
         weatherIcon.src = `./weather_icons/centered/solid/day/0${symbol.toString().slice(-2)}.svg`;
     }
     else {
+        contentHolder.className = "content-dark";
         weatherIcon.src = `./weather_icons/centered/solid/night/0${symbol.toString().slice(-2)}.svg`;
     }
     const now = new Date(); // current time
@@ -187,7 +188,6 @@ const fetchWeather = () => __awaiter(void 0, void 0, void 0, function* () {
     `;
         forecast.appendChild(listItem);
     });
-    console.log("peronanada ", fiveDaysForecast);
 });
 // will be used in future development for searched locations
 const getSearchedLocation = () => {
