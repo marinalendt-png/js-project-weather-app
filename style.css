@@ -12,7 +12,6 @@ body {
 .weather-container {
   max-width: min(100%, 375px);
   margin: 20px auto;
-  min-height: 100vh;
   background: #fff;
   box-shadow: 7px 3px 10px rgba(0, 0, 0, .1);
   display: grid;
