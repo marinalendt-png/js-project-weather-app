@@ -5,10 +5,11 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=, initial-scale=1.0" />
   <link rel="stylesheet" href="style.css">
-  <!-- i <head> -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <title>Project-weather-app</title>
-</head>
+
+  <head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <title>Project-weather-app</title>
+  </head>
 
 <body>
   <main class="weather-container">
@@ -18,7 +19,33 @@
       <button id="search-button">Search</button>
       <h1 class="temp" id="temp">°C</h1>
       <p class="city" id="city"></p>
-      <p class="desc" id="desc">—</p> <!-- weather description -->
+      <p class="time" id="time"></p>
+      <span class="weather-desc">
+        <p class="desc" id="desc">—</p> <!-- weather description -->
+        <img src="" alt="Weather icon" id="weather-icon" /> <!-- weather icon -->
+      </span>
+    </section>
+    <section class="forecast">
+      <ul class="days" id="forecast"></ul>
+    </section>
+  </main>
+  <footer>
+    <p>Created by Bubbles 2</p>
+  </footer>
+  <script src="index.js"></script>
+</body>
+
+</html>
+
+<!-- <body>
+  <main class="weather-container">
+    <div class="content"></div>
+    <section class="current-weather">
+      <input type="text" id="city-input" placeholder="Location">
+      <button id="search-button">Search</button>
+      <h1 class="temp" id="temp">°C</h1>
+      <p class="city" id="city"></p>
+      <p class="desc" id="desc">—</p> weather description 
     </section>
     <section class="forecast">
       <ul class="days" id="forecast"></ul>
@@ -27,4 +54,4 @@
   <script src="index.js"></script>
 </body>
 
-</html>
+</html> -->

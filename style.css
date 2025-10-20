@@ -50,3 +50,14 @@ body {
 .days {
   display: grid;
 }
+
+.weather-desc {
+  display: flex;
+  gap: 8px;
+}
+
+footer {
+  text-align: center;
+  color: grey;
+  position: relative;
+}
