@@ -21,31 +21,27 @@ const places = [
     name: "Stockholm",
     lat: 59.32944,
     lon: 18.06861,
-  }
-
+  },
   {
     name: "Göteborg",
     lat: 57.70887,
     lon: 11.97456,
-  }
-
+  },
   {
     name: "Lund",
     lat: 55.7058,
     lon: 13.1932,
-  }
-
+  },
   {
     name: "Linköping",
     lat: 58.4109,
     lon: 15.6216,
-  }
-
+  },
   {
     name: "Umeå",
     lat: 63.82585,
     lon: 20.26304,
-  }
+  },
 ]
 
 const city = document.getElementById("city") as HTMLElement;
@@ -54,8 +50,8 @@ const time = document.getElementById("time") as HTMLElement;
 const description = document.getElementById("desc") as HTMLElement;
 const forecast = document.getElementById("forecast") as HTMLUListElement;
 const contentHolder = document.querySelector(".content") as HTMLElement;
-//const contentHolder = document.querySelector('.current-weather');
 const weatherIcon = document.getElementById("weather-icon") as HTMLImageElement;
+const nextCityBtn = document.getElementById("next-city-btn") as HTMLButtonElement;
 //Function that maps weather symbols (numbers) from SMHI API to readable text
 // const mapWeatherSymbol = (symbol: number): string => { //annotate type and its return
 // Key-value mapping: weather symbol number → description
@@ -129,6 +125,8 @@ const weatherURL = `https://opendata-download-metfcst.smhi.se/api/category/snow1
 // Variable to store the current weather once we fetch it
 //let currentWeather: currentWeather;
 // Fetch weather data from SMHI API
+let currentCityIndex = 0;
+let place = places[currentCityIndex];
 const fetchWeather = async () => {
   // Fetch the weather JSON data from the SMHI API
   const response = await fetch(weatherURL);
@@ -150,14 +148,18 @@ const fetchWeather = async () => {
   //   temperature: temp ?? 0,
   //   //condition: mapWeatherSymbol(symbol ?? 0)
   // };
+
   city.textContent = place.name;
   temperature.textContent = `${temp} °C`;
+
   let currentHours = new Date().getHours().toLocaleString();
   currentHours = ("0" + currentHours).slice(-2);
   let currentMinutes = new Date().getMinutes().toLocaleString();
   currentMinutes = ("0" + currentMinutes).slice(-2);
   time.textContent = `Time: ${currentHours}:${currentMinutes} `; //Date requirement
+
   description.textContent = symbolDescription; //description requirement
+
   const isItDayTime = currentHours >= "06" && currentHours <= "18";
   if (isItDayTime) {
     weatherIcon.src = `./weather_icons/centered/solid/day/0${symbol.toString().slice(-2)}.svg`;
@@ -210,6 +212,12 @@ const getSearchedLocation = () => {
     alert("Geolocation is not supported by this browser or please allow location access.");
   }
 }
+nextCityBtn.addEventListener("click", () => {
+  currentCityIndex = (currentCityIndex + 1) % places.length;
+  place = places[currentCityIndex];
+  fetchWeather();
+});
+
 fetchWeather();
 getSearchedLocation();
 

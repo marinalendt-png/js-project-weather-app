@@ -1,6 +1,7 @@
 # js-project-weather-app
 Arta, Jennifer and Marinas weather-app
-
+=============================================
+Requirements for G: 
 - Your project should use TypeScript
 
 - You should fetch data from the API using fetch()
@@ -15,3 +16,13 @@ Arta, Jennifer and Marinas weather-app
 
 - Follow the guidelines on how to write clean code
 
+Week 43 To-Do
+=============================================
+- Forecast data display
+- Add button
+- Searchbar style and ts script (add more cities)
+- add branches and  merge files in git
+- Finish style (css) to all elements
+- structure code in sections and clean code/DRY
+- add symbols to symbol_code
+- Prepare for demos.
