@@ -15,7 +15,7 @@ interface forecastData {
   time: string;
   data: Data;
 }
-// Define a place
+// Defines places 
 const places = [
   {
     name: "Stockholm",
@@ -53,42 +53,7 @@ const weatherIcon = document.getElementById("weather-icon") as HTMLImageElement;
 const nextCityBtn = document.getElementById("next-city-btn") as HTMLButtonElement;
 const contentHolder = document.querySelector(".content") as HTMLElement; //first
 
-//Function that maps weather symbols (numbers) from SMHI API to readable text
-// const mapWeatherSymbol = (symbol: number): string => { //annotate type and its return
-// Key-value mapping: weather symbol number → description
-//   const mapping: { [key: number]: string } = { //annotate type and its return
-//     1: "Clear sky",
-//     2: "Nearly clear sky",
-//     3: "Variable cloudiness",
-//     4: "Halfclear sky",
-//     5: "Cloudy sky",
-//     6: "Overcast",
-//     7: "Fog",
-//     8: "Light rain showers",
-//     9: "Moderate rain showers",
-//     10: "Heavy rain showers",
-//     11: "Thunderstorm",
-//     12: "Light sleet showers",
-//     13: "Moderate sleet showers",
-//     14: "Heavy sleet showers",
-//     15: "Light snow showers",
-//     16: "Moderate snow showers",
-//     17: "Heavy snow showers",
-//     18: "Light rain",
-//     19: "Moderate rain",
-//     20: "Heavy rain",
-//     21: "Thunder",
-//     22: "Light sleet",
-//     23: "Moderate sleet",
-//     24: "Heavy sleet",
-//     25: "Light snow",
-//     26: "Moderate snow",
-//     27: "Heavy snow",
-//   }
-//   // Return the matching description, or "Unknown" if the symbol isn't in the list
-//   return mapping[symbol] ?? "Unknown";
-// };
-//description
+
 const symbolCodeMap: any = {
   1: "Clear sky",
   2: "Nearly clear sky",
@@ -118,17 +83,18 @@ const symbolCodeMap: any = {
   26: "Moderate snow",
   27: "Heavy snow",
 };
+
 const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-// The SMHI API endpoint for point forecasts (pmp3g)
-/*const weatherURL = `https://opendata-download-metfcst.smhi.se/api/category/pmp3g/version/2` +
-  `/geotype/point/lon/${place.lon}/lat/${place.lat}/data.json`;*/
-const weatherURL = `https://opendata-download-metfcst.smhi.se/api/category/snow1g/version/1/geotype/point/lon/18.062639/lat/59.329468/data.json`;
+
+// const weatherURL = `https://opendata-download-metfcst.smhi.se/api/category/snow1g/version/1/geotype/point/lon/18.062639/lat/59.329468/data.json`;
 // Variable to store the current weather once we fetch it
-//let currentWeather: currentWeather;
-// Fetch weather data from SMHI API
+
 let currentCityIndex = 0;
 let place = places[currentCityIndex];
+
 const fetchWeather = async () => {
+  const weatherURL = `https://opendata-download-metfcst.smhi.se/api/category/snow1g/version/1/geotype/point/lon/${place.lon}/lat/${place.lat}/data.json`;
+
   // Fetch the weather JSON data from the SMHI API
   const response = await fetch(weatherURL);
   // If something went wrong (e.g., 404 or 500), throw an error
@@ -142,16 +108,10 @@ const fetchWeather = async () => {
   const temp = currentTimeWeather.data.air_temperature;
   const symbol = currentTimeWeather.data.symbol_code;
   const symbolDescription = symbolCodeMap[symbol] ?? "Unknown"; //description
-  // Find the temperature ("t") and weather symbol ("Wsymb2") from parameters
-  // const temp = currentTimeWeather?.parameters.find(p => p.name === "t")?.values[0];
-  // const symbol = currentTimeWeather?.parameters.find(p => p.name === "Wsymb2")?.values[0];
-  // currentWeather = {
-  //   temperature: temp ?? 0,
-  //   //condition: mapWeatherSymbol(symbol ?? 0)
-  // };
+
 
   city.textContent = place.name;
-  temperature.textContent = `${temp} °C`;
+  temperature.textContent = `${temp}`;
 
   let currentHours = new Date().getHours().toLocaleString();
   currentHours = ("0" + currentHours).slice(-2);

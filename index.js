@@ -8,7 +8,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-// Define a place
+// Defines places 
 const places = [
     {
         name: "Stockholm",
@@ -110,17 +110,13 @@ const symbolCodeMap = {
     27: "Heavy snow",
 };
 const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-// The SMHI API endpoint for point forecasts (pmp3g)
-/*const weatherURL = `https://opendata-download-metfcst.smhi.se/api/category/pmp3g/version/2` +
-  `/geotype/point/lon/${place.lon}/lat/${place.lat}/data.json`;*/
-const weatherURL = `https://opendata-download-metfcst.smhi.se/api/category/snow1g/version/1/geotype/point/lon/18.062639/lat/59.329468/data.json`;
+// const weatherURL = `https://opendata-download-metfcst.smhi.se/api/category/snow1g/version/1/geotype/point/lon/18.062639/lat/59.329468/data.json`;
 // Variable to store the current weather once we fetch it
-//let currentWeather: currentWeather;
-// Fetch weather data from SMHI API
 let currentCityIndex = 0;
 let place = places[currentCityIndex];
 const fetchWeather = () => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
+    const weatherURL = `https://opendata-download-metfcst.smhi.se/api/category/snow1g/version/1/geotype/point/lon/${place.lon}/lat/${place.lat}/data.json`;
     // Fetch the weather JSON data from the SMHI API
     const response = yield fetch(weatherURL);
     // If something went wrong (e.g., 404 or 500), throw an error
@@ -134,15 +130,8 @@ const fetchWeather = () => __awaiter(void 0, void 0, void 0, function* () {
     const temp = currentTimeWeather.data.air_temperature;
     const symbol = currentTimeWeather.data.symbol_code;
     const symbolDescription = (_a = symbolCodeMap[symbol]) !== null && _a !== void 0 ? _a : "Unknown"; //description
-    // Find the temperature ("t") and weather symbol ("Wsymb2") from parameters
-    // const temp = currentTimeWeather?.parameters.find(p => p.name === "t")?.values[0];
-    // const symbol = currentTimeWeather?.parameters.find(p => p.name === "Wsymb2")?.values[0];
-    // currentWeather = {
-    //   temperature: temp ?? 0,
-    //   //condition: mapWeatherSymbol(symbol ?? 0)
-    // };
     city.textContent = place.name;
-    temperature.textContent = `${temp} °C`;
+    temperature.textContent = `${temp}`;
     let currentHours = new Date().getHours().toLocaleString();
     currentHours = ("0" + currentHours).slice(-2);
     let currentMinutes = new Date().getMinutes().toLocaleString();
