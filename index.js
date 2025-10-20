@@ -142,7 +142,7 @@ const fetchWeather = () => __awaiter(void 0, void 0, void 0, function* () {
     //   //condition: mapWeatherSymbol(symbol ?? 0)
     // };
     city.textContent = place.name;
-    temperature.textContent = `${temp} °C`;
+    temperature.textContent = `${temp}`;
     let currentHours = new Date().getHours().toLocaleString();
     currentHours = ("0" + currentHours).slice(-2);
     let currentMinutes = new Date().getMinutes().toLocaleString();

@@ -150,7 +150,7 @@ const fetchWeather = async () => {
   // };
 
   city.textContent = place.name;
-  temperature.textContent = `${temp} °C`;
+  temperature.textContent = `${temp}`;
 
   let currentHours = new Date().getHours().toLocaleString();
   currentHours = ("0" + currentHours).slice(-2);
