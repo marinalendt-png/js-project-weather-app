@@ -12,7 +12,6 @@ body {
 .weather-container {
   max-width: min(100%, 375px);
   margin: 20px auto;
-  margin-bottom: 20px;
   min-height: 100vh;
   background: #fff;
   box-shadow: 7px 3px 10px rgba(0, 0, 0, .1);
@@ -38,6 +37,47 @@ body {
   z-index: 1;
   color: #fff;
   padding: 16px;
+}
+
+.temp {
+  color: #fff;
+  font-size: 120px;
+  font-weight: 300;
+  margin: auto 0;
+
+}
+
+.temp::after {
+  content: "°C";
+  font-size: 40px;
+  vertical-align: super;
+  margin-left: 8px;
+  font-weight: 400px;
+  position: relative;
+  top: -18px;
+}
+
+.city {
+  color: #fff;
+  font-size: 34px;
+  font-weight: 300;
+  position: relative;
+  margin: auto 0;
+}
+
+.time {
+  color: #fff;
+  font-size: 18px;
+  font-weight: 300;
+  margin: auto;
+
+}
+
+.weather-desc {
+  color: #fff;
+  font-size: 22px;
+  font-weight: 300;
+  margin: auto 0;
 }
 
 .forecast {
