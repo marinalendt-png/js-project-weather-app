@@ -1,3 +1,4 @@
+
 //Full response object from the SMHI API//
 interface ApiResponse {
   timeSeries: TimeSeries[];
@@ -136,7 +137,7 @@ const fetchWeather = async () => {
         if (dayForecast !== undefined) {
           console.log("dayForecast ", ("0" + dayForecast.data.symbol_code.toString()).slice(-2));
           return {
-            day: dayNames[new Date(dayForecast.time).getUTCDay()].substring(0,3),
+            day: dayNames[new Date(dayForecast.time).getUTCDay()].substring(0, 3),
             temperature: dayForecast.data.air_temperature,
             weatherIcon: `./weather_icons/centered/solid/${isItDayTime ? 'day' : 'night'}/${("0" + dayForecast.data.symbol_code.toString()).slice(-2)}.svg`,
             windSpeed: dayForecast.data.wind_speed
