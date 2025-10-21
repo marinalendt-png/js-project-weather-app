@@ -162,17 +162,17 @@ const fetchWeather = async () => {
   console.log("peronanada ", fiveDaysForecast);
 }
 // will be used in future development for searched locations
-const getSearchedLocation = () => {
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition((position) => {
-      console.log("Latitude: " + position.coords.latitude +
-        " Longitude: " + position.coords.longitude);
-    });
-  }
-  else {
-    alert("Geolocation is not supported by this browser or please allow location access.");
-  }
-}
+// const getSearchedLocation = () => {
+//   if (navigator.geolocation) {
+//     navigator.geolocation.getCurrentPosition((position) => {
+//       console.log("Latitude: " + position.coords.latitude +
+//         " Longitude: " + position.coords.longitude);
+//     });
+//   }
+//   else {
+//     alert("Geolocation is not supported by this browser or please allow location access.");
+//   }
+// }
 nextCityBtn.addEventListener("click", () => {
   currentCityIndex = (currentCityIndex + 1) % places.length;
   place = places[currentCityIndex];
@@ -180,7 +180,7 @@ nextCityBtn.addEventListener("click", () => {
 });
 
 fetchWeather();
-getSearchedLocation();
+// getSearchedLocation();
 
 
 

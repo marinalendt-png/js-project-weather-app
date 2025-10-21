@@ -120,6 +120,8 @@ body {
 .next-city-btn {
   position: absolute;
   top: calc(var(--header-h) + 30px);
+  z-index: 2;
+  pointer-events: auto;
   right: -10px;
   transform: translateX(-50%);
   background: #757AFF;
