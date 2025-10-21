@@ -12,7 +12,6 @@ body {
 .weather-container {
   max-width: min(100%, 375px);
   margin: 20px auto;
-  min-height: 100vh;
   background: #fff;
   box-shadow: 7px 3px 10px rgba(0, 0, 0, .1);
   display: grid;
@@ -31,8 +30,16 @@ body {
   z-index: 0;
 }
 
+.content-dark {
+  position: relative;
+  grid-area: 1 / 1 / 2 / 2;
+  background: linear-gradient(135deg, #222350, #6264A2);
+  clip-path: ellipse(90% 70% at 50% 30%);
+  overflow: hidden;
+  z-index: 0;
+}
+
 .current-weather {
-  /*keeps the current weather on top of the background*/
   grid-area: 1 / 1 / 2 / 2;
   z-index: 1;
   color: #fff;

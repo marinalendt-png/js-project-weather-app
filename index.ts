@@ -49,9 +49,10 @@ const temperature = document.getElementById("temp") as HTMLElement;
 const time = document.getElementById("time") as HTMLElement;
 const description = document.getElementById("desc") as HTMLElement;
 const forecast = document.getElementById("forecast") as HTMLUListElement;
-const contentHolder = document.querySelector(".content") as HTMLElement;
 const weatherIcon = document.getElementById("weather-icon") as HTMLImageElement;
 const nextCityBtn = document.getElementById("next-city-btn") as HTMLButtonElement;
+const contentHolder = document.querySelector(".content") as HTMLElement; //first
+
 
 const symbolCodeMap: any = {
   1: "Clear sky",
@@ -124,8 +125,10 @@ const fetchWeather = async () => {
   if (isItDayTime) {
     weatherIcon.src = `./weather_icons/centered/solid/day/0${symbol.toString().slice(-2)}.svg`;
   } else {
+    contentHolder.className = "content-dark";
     weatherIcon.src = `./weather_icons/centered/solid/night/0${symbol.toString().slice(-2)}.svg`;
   }
+
   const now = new Date(); // current time
   const cutoff = new Date(now.getTime() + 5 * 24 * 60 * 60 * 1000); // 5 days from now
   const forecastData: forecastData[] = data.timeSeries.filter(ts => new Date(ts.time) <= cutoff);
@@ -158,7 +161,12 @@ const fetchWeather = async () => {
     `;
     forecast.appendChild(listItem);
   });
-  console.log("peronanada ", fiveDaysForecast);
+
+
+
+
+
+
 }
 // will be used in future development for searched locations
 const getSearchedLocation = () => {
