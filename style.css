@@ -87,16 +87,23 @@ body {
   margin: auto 0;
 }
 
+#weather-icon {
+  position: absolute;
+  top: 8em;
+  right: 2em;
+  width: 8em;
+}
+
 .forecast {
   /* keeps the forcast below the current weather*/
-  grid-area: 2 / 1 / 3 / 2;
+  /* grid-area: 2 / 1 / 3 / 2;
   display: grid;
   padding: 16px;
-  color: #707070;
+  color: #707070; */
 }
 
 .days {
-  display: grid;
+  /* display: grid; */
 
   ul {
     display: flex;
@@ -105,7 +112,7 @@ body {
     margin: 0;
 
     p:first-child {
-      width: 4em;
+      width: 7em;
     }
 
     p:nth-child(3) {
@@ -141,4 +148,17 @@ footer {
   text-align: center;
   color: grey;
   position: relative;
+}
+
+
+@media only screen and (max-width: 600px) {
+  .days {
+    ul {
+      padding-left: 1em;
+    }
+
+    p:first-child {
+      width: 6em !important;
+    }
+  }
 }
