@@ -154,5 +154,10 @@ body {
 
   #weather-icon {
     right: 0;
+    top: 3em;
+  }
+
+  .next-city-btn {
+    top: calc(var(--header-h) + 50px);
   }
 }
