@@ -87,18 +87,18 @@ body {
 
 #weather-icon {
   position: absolute;
-  top: 8em;
-  right: 2em;
+  top: 5em;
+  right: 1em;
   width: 8em;
 }
 
-.forecast {
-  /* keeps the forcast below the current weather*/
-  /* grid-area: 2 / 1 / 3 / 2;
+/*.forecast {
+  /keeps the forcast below the current weather
+  grid-area: 2 / 1 / 3 / 2;
   display: grid;
   padding: 16px;
-  color: #707070; */
-}
+  color: #707070; 
+}*/
 
 .days {
   /* display: grid; */
@@ -132,7 +132,7 @@ body {
 
 .next-city-btn {
   position: absolute;
-  top: calc(var(--header-h) + 30px);
+  top: calc(var(--header-h) + 50px);
   z-index: 2;
   pointer-events: auto;
   right: -10px;
