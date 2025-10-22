@@ -105,7 +105,7 @@ const fetchWeather = async () => {
   const data: ApiResponse = await response.json();
   // Get the first time step (usually the current or next available forecast)
   const currentTimeWeather: TimeSeries = data?.timeSeries[0];
-  const temp = currentTimeWeather.data.air_temperature;
+  const temp = Math.round(currentTimeWeather.data.air_temperature);
   const symbol = currentTimeWeather.data.symbol_code;
   const symbolDescription = symbolCodeMap[symbol] ?? "Unknown"; //description
 
@@ -139,8 +139,8 @@ const fetchWeather = async () => {
         if (dayForecast !== undefined) {
           console.log("dayForecast ", ("0" + dayForecast.data.symbol_code.toString()).slice(-2));
           return {
-            day: dayNames[new Date(dayForecast.time).getUTCDay()].substring(0,3),
-            temperature: dayForecast.data.air_temperature,
+            day: dayNames[new Date(dayForecast.time).getUTCDay()].substring(0, 3),
+            temperature: Math.round(dayForecast.data.air_temperature),
             weatherIcon: `./weather_icons/centered/solid/${isItDayTime ? 'day' : 'night'}/${("0" + dayForecast.data.symbol_code.toString()).slice(-2)}.svg`,
             windSpeed: dayForecast.data.wind_speed
           };

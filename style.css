@@ -13,11 +13,12 @@ body {
   max-width: min(100%, 375px);
   margin: 20px auto;
   background: #fff;
-  box-shadow: 7px 3px 10px rgba(0, 0, 0, .1);
   display: grid;
   --header-h: clamp(220px, 48vw, 340px);
+  /* responsive header height */
   grid-template-columns: 1fr;
   grid-template-rows: auto auto;
+  /* two rows: one for current weather, one for forecast */
   position: relative;
   overflow: hidden;
 }
@@ -42,14 +43,14 @@ body {
 .current-weather {
   grid-area: 1 / 1 / 2 / 2;
   z-index: 1;
-  color: #fff;
+  color: #FFFFFF;
   padding: 16px;
 }
 
 .temp {
-  color: #fff;
+  color: #FFFFFF;
   font-size: 120px;
-  font-weight: 300;
+  font-weight: 400;
   margin: auto 0;
 
 }
@@ -59,13 +60,11 @@ body {
   font-size: 40px;
   vertical-align: super;
   margin-left: 8px;
-  font-weight: 400px;
   position: relative;
   top: -18px;
 }
 
 .city {
-  color: #fff;
   font-size: 34px;
   font-weight: 300;
   position: relative;
@@ -73,7 +72,6 @@ body {
 }
 
 .time {
-  color: #fff;
   font-size: 18px;
   font-weight: 300;
   margin: auto;
@@ -81,7 +79,6 @@ body {
 }
 
 .weather-desc {
-  color: #fff;
   font-size: 22px;
   font-weight: 300;
   margin: auto 0;
@@ -142,12 +139,6 @@ body {
   height: 50px;
   cursor: pointer;
   backdrop-filter: blur(5px);
-}
-
-footer {
-  text-align: center;
-  color: grey;
-  position: relative;
 }
 
 
