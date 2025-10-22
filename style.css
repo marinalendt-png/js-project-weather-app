@@ -11,7 +11,7 @@ body {
 /* Center the weather container */
 .weather-container {
   max-width: min(100%, 375px);
-  min-height: 100vh;
+  min-height: 45em;
   margin: auto;
   background: #fff;
   display: grid;
@@ -22,6 +22,8 @@ body {
   /* two rows: one for current weather, one for forecast */
   position: relative;
   overflow: hidden;
+  border: 1px solid #d3d3d370;
+  border-radius: 16px;
 }
 
 .content {
@@ -90,6 +92,7 @@ body {
   right: 1em;
   width: 8em;
 }
+
 .days {
   ul {
     display: flex;
@@ -120,7 +123,7 @@ body {
 
 .next-city-btn {
   position: absolute;
-  top: calc(var(--header-h) + 20px);
+  top: calc(var(--header-h) - 12px);
   z-index: 2;
   pointer-events: auto;
   right: -10px;
@@ -158,6 +161,12 @@ body {
   }
 
   .next-city-btn {
-    top: calc(var(--header-h) + 50px);
+    top: calc(var(--header-h) + 70px);
+  }
+
+  .weather-container {
+    min-height: 40em;
+    border-radius: 0;
+    border: 0;
   }
 }

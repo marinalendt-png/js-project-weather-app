@@ -102,11 +102,11 @@ const fetchWeather = () => __awaiter(void 0, void 0, void 0, function* () {
     description.textContent = symbolDescription; //description requirement
     const isItDayTime = currentHours >= "06" && currentHours <= "18";
     if (isItDayTime) {
-        weatherIcon.src = `./weather_icons/centered/solid/day/0${symbol.toString().slice(-2)}.svg`;
+        weatherIcon.src = `./weather_icons/centered/solid/day/${("0" + symbol.toString()).slice(-2)}.svg`;
     }
     else {
         contentHolder.className = "content-dark";
-        weatherIcon.src = `./weather_icons/centered/solid/night/0${symbol.toString().slice(-2)}.svg`;
+        weatherIcon.src = `./weather_icons/centered/solid/night/${("0" + symbol.toString()).slice(-2)}.svg`;
     }
     const now = new Date(); // current time
     const cutoff = new Date(now.getTime() + 5 * 24 * 60 * 60 * 1000); // 5 days from now

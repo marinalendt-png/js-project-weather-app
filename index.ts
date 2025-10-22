@@ -119,10 +119,10 @@ const fetchWeather = async () => {
 
   const isItDayTime = currentHours >= "06" && currentHours <= "18";
   if (isItDayTime) {
-    weatherIcon.src = `./weather_icons/centered/solid/day/0${symbol.toString().slice(-2)}.svg`;
+    weatherIcon.src = `./weather_icons/centered/solid/day/${("0" + symbol.toString()).slice(-2)}.svg`;
   } else {
     contentHolder.className = "content-dark";
-    weatherIcon.src = `./weather_icons/centered/solid/night/0${symbol.toString().slice(-2)}.svg`;
+    weatherIcon.src = `./weather_icons/centered/solid/night/${("0" + symbol.toString()).slice(-2)}.svg`;
   }
 
   const now = new Date(); // current time
