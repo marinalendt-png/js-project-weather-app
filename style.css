@@ -101,9 +101,7 @@ body {
 }*/
 
 .days {
-  /* display: grid; */
-
-  */ ul {
+  ul {
     display: flex;
     flex-direction: row;
     padding-left: 2em;
