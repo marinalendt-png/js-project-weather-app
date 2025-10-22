@@ -44,42 +44,6 @@ const forecast = document.getElementById("forecast");
 const weatherIcon = document.getElementById("weather-icon");
 const nextCityBtn = document.getElementById("next-city-btn");
 const contentHolder = document.querySelector(".content"); //first
-//Function that maps weather symbols (numbers) from SMHI API to readable text
-// const mapWeatherSymbol = (symbol: number): string => { //annotate type and its return
-// Key-value mapping: weather symbol number → description
-//   const mapping: { [key: number]: string } = { //annotate type and its return
-//     1: "Clear sky",
-//     2: "Nearly clear sky",
-//     3: "Variable cloudiness",
-//     4: "Halfclear sky",
-//     5: "Cloudy sky",
-//     6: "Overcast",
-//     7: "Fog",
-//     8: "Light rain showers",
-//     9: "Moderate rain showers",
-//     10: "Heavy rain showers",
-//     11: "Thunderstorm",
-//     12: "Light sleet showers",
-//     13: "Moderate sleet showers",
-//     14: "Heavy sleet showers",
-//     15: "Light snow showers",
-//     16: "Moderate snow showers",
-//     17: "Heavy snow showers",
-//     18: "Light rain",
-//     19: "Moderate rain",
-//     20: "Heavy rain",
-//     21: "Thunder",
-//     22: "Light sleet",
-//     23: "Moderate sleet",
-//     24: "Heavy sleet",
-//     25: "Light snow",
-//     26: "Moderate snow",
-//     27: "Heavy snow",
-//   }
-//   // Return the matching description, or "Unknown" if the symbol isn't in the list
-//   return mapping[symbol] ?? "Unknown";
-// };
-//description
 const symbolCodeMap = {
     1: "Clear sky",
     2: "Nearly clear sky",
