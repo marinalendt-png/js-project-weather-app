@@ -120,7 +120,7 @@ const fetchWeather = () => __awaiter(void 0, void 0, void 0, function* () {
                     console.log("dayForecast ", ("0" + dayForecast.data.symbol_code.toString()).slice(-2));
                     return {
                         day: dayNames[new Date(dayForecast.time).getUTCDay()].substring(0, 3),
-                        temperature: Math.round(dayForecast.data.air_temperature),
+                        temperature: dayForecast.data.air_temperature,
                         weatherIcon: `./weather_icons/centered/solid/${isItDayTime ? 'day' : 'night'}/${("0" + dayForecast.data.symbol_code.toString()).slice(-2)}.svg`,
                         windSpeed: dayForecast.data.wind_speed
                     };
