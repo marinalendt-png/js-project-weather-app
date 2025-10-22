@@ -41,9 +41,9 @@ const temperature = document.getElementById("temp");
 const time = document.getElementById("time");
 const description = document.getElementById("desc");
 const forecast = document.getElementById("forecast");
-const contentHolder = document.querySelector(".content");
 const weatherIcon = document.getElementById("weather-icon");
 const nextCityBtn = document.getElementById("next-city-btn");
+const contentHolder = document.querySelector(".content"); //first
 const symbolCodeMap = {
     1: "Clear sky",
     2: "Nearly clear sky",
@@ -91,7 +91,7 @@ const fetchWeather = () => __awaiter(void 0, void 0, void 0, function* () {
     const data = yield response.json();
     // Get the first time step (usually the current or next available forecast)
     const currentTimeWeather = data === null || data === void 0 ? void 0 : data.timeSeries[0];
-    const temp = currentTimeWeather.data.air_temperature;
+    const temp = Math.round(currentTimeWeather.data.air_temperature);
     const symbol = currentTimeWeather.data.symbol_code;
     const symbolDescription = (_a = symbolCodeMap[symbol]) !== null && _a !== void 0 ? _a : "Unknown"; //description
     city.textContent = place.name;
@@ -107,6 +107,7 @@ const fetchWeather = () => __awaiter(void 0, void 0, void 0, function* () {
         weatherIcon.src = `./weather_icons/centered/solid/day/0${symbol.toString().slice(-2)}.svg`;
     }
     else {
+        contentHolder.className = "content-dark";
         weatherIcon.src = `./weather_icons/centered/solid/night/0${symbol.toString().slice(-2)}.svg`;
     }
     const now = new Date(); // current time
@@ -119,7 +120,7 @@ const fetchWeather = () => __awaiter(void 0, void 0, void 0, function* () {
                     console.log("dayForecast ", ("0" + dayForecast.data.symbol_code.toString()).slice(-2));
                     return {
                         day: dayNames[new Date(dayForecast.time).getUTCDay()].substring(0, 3),
-                        temperature: dayForecast.data.air_temperature,
+                        temperature: Math.round(dayForecast.data.air_temperature),
                         weatherIcon: `./weather_icons/centered/solid/${isItDayTime ? 'day' : 'night'}/${("0" + dayForecast.data.symbol_code.toString()).slice(-2)}.svg`,
                         windSpeed: dayForecast.data.wind_speed
                     };
@@ -140,7 +141,6 @@ const fetchWeather = () => __awaiter(void 0, void 0, void 0, function* () {
     `;
         forecast.appendChild(listItem);
     });
-    console.log("peronanada ", fiveDaysForecast);
 });
 // will be used in future development for searched locations
 // const getSearchedLocation = () => {
