@@ -3,17 +3,16 @@
 
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="style.css">
-
-  <head>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <title>Project-weather-app</title>
-  </head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <title>Project-weather-app</title>
+</head>
 
 <body>
   <main class="weather-container">
     <div class="content"></div>
+
     <section class="current-weather">
       <h1 class="temp" id="temp"></h1>
       <p class="city" id="city"></p>
@@ -22,37 +21,21 @@
         <p class="desc" id="desc">—</p> <!-- weather description -->
         <!--<img src="" alt="Weather icon" id="weather-icon"/> --> 
       </span>
-
-      <img src="" alt="Weather icon" id="weather-icon"/>
-      
-      <button class=next-city-btn id="next-city-btn"></button>
     </section>
 
+    <button class="next-city-btn" id="next-city-btn"> <svg class="arrow" width="35" height="35" viewBox="0 0 24 24"
+        fill="none">
+        <path d="M8 5L16 12L8 19" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+    </button>
 
     <section class="forecast">
       <div class="days" id="forecast"></div>
     </section>
   </main>
+
   <script src="index.js"></script>
+
 </body>
 
 </html>
-
-<!-- <body>
-  <main class="weather-container">
-    <div class="content"></div>
-    <section class="current-weather">
-      <input type="text" id="city-input" placeholder="Location">
-      <button id="search-button">Search</button>
-      <h1 class="temp" id="temp">°C</h1>
-      <p class="city" id="city"></p>
-      <p class="desc" id="desc">—</p> weather description 
-    </section>
-    <section class="forecast">
-      <ul class="days" id="forecast"></ul>
-    </section>
-  </main>
-  <script src="index.js"></script>
-</body>
-
-</html> -->

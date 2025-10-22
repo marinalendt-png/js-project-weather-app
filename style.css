@@ -11,7 +11,8 @@ body {
 /* Center the weather container */
 .weather-container {
   max-width: min(100%, 375px);
-  margin: 20px auto;
+  min-height: 100vh;
+  margin: auto;
   background: #fff;
   display: grid;
   --header-h: clamp(220px, 48vw, 340px);
@@ -130,15 +131,26 @@ body {
 }
 
 .next-city-btn {
-  top: 16px;
-  right: 16px;
+  position: absolute;
+  top: calc(var(--header-h) + 30px);
+  z-index: 2;
+  pointer-events: auto;
+  right: -10px;
+  transform: translateX(-50%);
   background: #757AFF;
   border: none;
   border-radius: 50%;
-  width: 50px;
-  height: 50px;
+  width: 70px;
+  height: 70px;
   cursor: pointer;
   backdrop-filter: blur(5px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.next-city-btn .arrow {
+  color: white;
 }
 
 
