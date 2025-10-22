@@ -103,8 +103,6 @@ body {
 }
 
 .days {
-  /* display: grid; */
-
   ul {
     display: flex;
     flex-direction: row;
