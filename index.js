@@ -127,7 +127,7 @@ const fetchWeather = () => __awaiter(void 0, void 0, void 0, function* () {
     const data = yield response.json();
     // Get the first time step (usually the current or next available forecast)
     const currentTimeWeather = data === null || data === void 0 ? void 0 : data.timeSeries[0];
-    const temp = currentTimeWeather.data.air_temperature;
+    const temp = Math.round(currentTimeWeather.data.air_temperature);
     const symbol = currentTimeWeather.data.symbol_code;
     const symbolDescription = (_a = symbolCodeMap[symbol]) !== null && _a !== void 0 ? _a : "Unknown"; //description
     city.textContent = place.name;
@@ -156,7 +156,7 @@ const fetchWeather = () => __awaiter(void 0, void 0, void 0, function* () {
                     console.log("dayForecast ", ("0" + dayForecast.data.symbol_code.toString()).slice(-2));
                     return {
                         day: dayNames[new Date(dayForecast.time).getUTCDay()].substring(0, 3),
-                        temperature: dayForecast.data.air_temperature,
+                        temperature: Math.round(dayForecast.data.air_temperature),
                         weatherIcon: `./weather_icons/centered/solid/${isItDayTime ? 'day' : 'night'}/${("0" + dayForecast.data.symbol_code.toString()).slice(-2)}.svg`,
                         windSpeed: dayForecast.data.wind_speed
                     };
