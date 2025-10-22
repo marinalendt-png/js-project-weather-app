@@ -123,7 +123,7 @@ body {
 
 .next-city-btn {
   position: absolute;
-  top: calc(var(--header-h) - 12px);
+  top: calc(var(--header-h) + 10px);
   z-index: 2;
   pointer-events: auto;
   right: -10px;
@@ -161,7 +161,7 @@ body {
   }
 
   .next-city-btn {
-    top: calc(var(--header-h) + 70px);
+    top: calc(var(--header-h) + 95px);
   }
 
   .weather-container {
