@@ -8,7 +8,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-// Defines places 
+/*------------------------------------
+  STATIC PLACES
+ --------------------------------------*/
 const places = [
     {
         name: "Stockholm",
@@ -46,6 +48,9 @@ const places = [
         lon: 20.548735,
     }
 ];
+/*------------------------------------
+  DOM ELEMENTS
+ --------------------------------------*/
 const city = document.getElementById("city");
 const temperature = document.getElementById("temp");
 const time = document.getElementById("time");
@@ -54,6 +59,9 @@ const forecast = document.getElementById("forecast");
 const weatherIcon = document.getElementById("weather-icon");
 const nextCityBtn = document.getElementById("next-city-btn");
 const contentHolder = document.querySelector(".content"); //first
+/*------------------------------------
+  SYMBOL CODE MAPPING
+ --------------------------------------*/
 const symbolCodeMap = {
     1: "Clear sky",
     2: "Nearly clear sky",
@@ -83,33 +91,41 @@ const symbolCodeMap = {
     26: "Moderate snow",
     27: "Heavy snow",
 };
+/*------------------------------------
+  CONSTANS / HELPERS
+ --------------------------------------*/
 const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+// ---- Keep track of which city is currently shown
 let currentCityIndex = 0;
 let place = places[currentCityIndex];
+/*------------------------------------
+  FETCH & DISPLAY WEATHER
+ --------------------------------------*/
 const fetchWeather = () => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     const weatherURL = `https://opendata-download-metfcst.smhi.se/api/category/snow1g/version/1/geotype/point/lon/${place.lon}/lat/${place.lat}/data.json`;
-    // Fetch the weather JSON data from the SMHI API
+    // ---- Fetch the weather JSON data from the SMHI API
     const response = yield fetch(weatherURL);
-    // If something went wrong (e.g., 404 or 500), throw an error
     if (!response.ok) {
         alert("Failed to fetch weather data for this location.");
     }
-    // Parse the JSON response and cast it to our SmhiResponse type
+    // ---- Parse the JSON response and cast it to our SmhiResponse type
     const data = yield response.json();
-    // Get the first time step (usually the current or next available forecast)
     const currentTimeWeather = data === null || data === void 0 ? void 0 : data.timeSeries[0];
     const temp = Math.round(currentTimeWeather.data.air_temperature);
     const symbol = currentTimeWeather.data.symbol_code;
-    const symbolDescription = (_a = symbolCodeMap[symbol]) !== null && _a !== void 0 ? _a : "Unknown"; //description
+    const symbolDescription = (_a = symbolCodeMap[symbol]) !== null && _a !== void 0 ? _a : "Unknown"; // fallback if code not found
+    // ---- Update current city & temperature in the UI
     city.textContent = place.name;
     temperature.textContent = `${temp}`;
+    // ---- Format and display the current time
     let currentHours = new Date().getHours().toLocaleString();
     currentHours = ("0" + currentHours).slice(-2);
     let currentMinutes = new Date().getMinutes().toLocaleString();
     currentMinutes = ("0" + currentMinutes).slice(-2);
     time.textContent = `Time: ${currentHours}:${currentMinutes} `; //Date requirement
-    description.textContent = symbolDescription; //description requirement
+    description.textContent = symbolDescription; // ---- Update textual weather description
+    // Choose day/night icon set and optionally switch to dark theme
     const isItDayTime = currentHours >= "06" && currentHours <= "18";
     if (isItDayTime) {
         weatherIcon.src = `./weather_icons/centered/solid/day/${("0" + symbol.toString()).slice(-2)}.svg`;
@@ -118,16 +134,20 @@ const fetchWeather = () => __awaiter(void 0, void 0, void 0, function* () {
         contentHolder.className = "content-dark";
         weatherIcon.src = `./weather_icons/centered/solid/night/${("0" + symbol.toString()).slice(-2)}.svg`;
     }
+    /*------------------------------------
+      5-DAY FORECAST RENDERING
+   --------------------------------------*/
     const now = new Date(); // current time
     const cutoff = new Date(now.getTime() + 5 * 24 * 60 * 60 * 1000); // 5 days from now
     const forecastData = data.timeSeries.filter(ts => new Date(ts.time) <= cutoff);
+    // Select entries for midday (12:00 UTC) only
     let fiveDaysForecast = forecastData.map((dayForecast) => {
-        if (now.getDate() + 1 < new Date(dayForecast.time).getDate() + 1) {
-            if (new Date(dayForecast.time).getUTCHours() === 12) {
+        if (now.getDate() + 1 < new Date(dayForecast.time).getDate() + 1) { // Ensure the item is in the future (beyond "today")
+            if (new Date(dayForecast.time).getUTCHours() === 12) { // Select the midday (12:00 UTC) record for that day
                 if (dayForecast !== undefined) {
                     return {
                         day: dayNames[new Date(dayForecast.time).getUTCDay()].substring(0, 3),
-                        temperature: Math.round(dayForecast.data.air_temperature),
+                        temperature: Math.round(dayForecast.data.air_temperature), //Round to no decimals
                         weatherIcon: `./weather_icons/centered/solid/${isItDayTime ? 'day' : 'night'}/${("0" + dayForecast.data.symbol_code.toString()).slice(-2)}.svg`,
                         windSpeed: dayForecast.data.wind_speed
                     };
@@ -136,7 +156,8 @@ const fetchWeather = () => __awaiter(void 0, void 0, void 0, function* () {
             return;
         }
     });
-    fiveDaysForecast = fiveDaysForecast.filter(a => a !== undefined);
+    fiveDaysForecast = fiveDaysForecast.filter(a => a !== undefined); // Remove undefined entries (days where no 12:00 UTC record was found)
+    // Clear and append forecast items as <ul> elements
     forecast.innerHTML = ""; // Clear previous forecast entries
     fiveDaysForecast.forEach((dayForecast) => {
         const listItem = document.createElement("ul");
@@ -149,9 +170,17 @@ const fetchWeather = () => __awaiter(void 0, void 0, void 0, function* () {
         forecast.appendChild(listItem);
     });
 });
+/*------------------------------------
+  BUTTON EVENTS
+--------------------------------------*/
+// When user clicks the next city button, show the next place
 nextCityBtn.addEventListener("click", () => {
     currentCityIndex = (currentCityIndex + 1) % places.length;
     place = places[currentCityIndex];
     fetchWeather();
 });
+/*------------------------------------
+  INITIALIZATION
+--------------------------------------*/
+// Load first city's weather on page load
 fetchWeather();

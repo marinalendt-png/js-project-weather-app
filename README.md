@@ -1,3 +1,7 @@
+
+https://project-weather-app-b2.netlify.app/
+
+
 # js-project-weather-app
 Arta, Jennifer and Marinas weather-app
 =============================================
