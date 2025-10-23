@@ -12,6 +12,7 @@ body {
 .weather-container {
   max-width: min(100%, 375px);
   min-height: 45em;
+  height: 660px;
   margin: auto;
   background: #fff;
   display: grid;
@@ -28,6 +29,7 @@ body {
 
 .content {
   /* container for current weather and forecast*/
+  height: 390px;
   grid-area: 1 / 1 / 2 / 2;
   background: linear-gradient(135deg, #8589FF, #E8E9FF);
   clip-path: ellipse(90% 70% at 50% 30%);
@@ -93,6 +95,10 @@ body {
   width: 8em;
 }
 
+.forecast {
+  margin-top: 10px;
+}
+
 .days {
   ul {
     display: flex;
@@ -101,7 +107,7 @@ body {
     margin: 0;
 
     p:first-child {
-      width: 7em;
+      width: 9em;
     }
 
     p:nth-child(3) {
@@ -123,7 +129,7 @@ body {
 
 .next-city-btn {
   position: absolute;
-  top: calc(var(--header-h) + 10px);
+  top: calc(var(--header-h) - 5px);
   z-index: 2;
   pointer-events: auto;
   right: -10px;
@@ -151,7 +157,7 @@ body {
     }
 
     p:first-child {
-      width: 6em !important;
+      width: 9em !important;
     }
   }
 
@@ -161,12 +167,41 @@ body {
   }
 
   .next-city-btn {
-    top: calc(var(--header-h) + 95px);
+    top: calc(var(--header-h) + 110px);
   }
 
   .weather-container {
     min-height: 40em;
     border-radius: 0;
     border: 0;
+  }
+}
+
+/* =========================================================
+   Pulse animation for the big weather icon only
+   ========================================================= */
+@keyframes sunPulse {
+
+  0%,
+  100% {
+    transform: scale(1);
+    filter: drop-shadow(0 0 0.2rem rgba(77, 74, 63, 0.6));
+  }
+
+  50% {
+    transform: scale(1.06);
+    filter: drop-shadow(0 0 0.9rem rgba(189, 189, 181, 0.9));
+  }
+}
+
+#weather-icon.sun-pulse {
+  animation: sunPulse 3s ease-in-out infinite;
+  will-change: transform, filter;
+}
+
+/* Respect reduced motion for the pulse */
+@media (prefers-reduced-motion: reduce) {
+  #weather-icon.sun-pulse {
+    animation: none !important;
   }
 }

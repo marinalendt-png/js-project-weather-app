@@ -35,6 +35,16 @@ const places = [
         lat: 63.82585,
         lon: 20.26304,
     },
+    {
+        name: "Vittangi",
+        lat: 67.678642,
+        lon: 21.641315,
+    },
+    {
+        name: "Treriksröset",
+        lat: 69.059966,
+        lon: 20.548735,
+    }
 ];
 const city = document.getElementById("city");
 const temperature = document.getElementById("temp");

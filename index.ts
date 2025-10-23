@@ -1,5 +1,6 @@
-
-//Full response object from the SMHI API//
+/*------------------------------------ 
+   INTERFACES
+ --------------------------------------*/
 interface ApiResponse {
   timeSeries: TimeSeries[];
 }
@@ -16,7 +17,11 @@ interface forecastData {
   time: string;
   data: Data;
 }
-// Defines places 
+
+
+/*------------------------------------ 
+    STATIC PLACES
+ --------------------------------------*/
 const places = [
   {
     name: "Stockholm",
@@ -43,8 +48,21 @@ const places = [
     lat: 63.82585,
     lon: 20.26304,
   },
+  {
+    name: "Vittangi",
+    lat: 67.678642,
+    lon: 21.641315,
+  },
+  {
+    name: "Treriksröset",
+    lat: 69.059966,
+    lon: 20.548735,
+  }
 ]
 
+/*------------------------------------ 
+    DOM ELEMENTS
+ --------------------------------------*/
 const city = document.getElementById("city") as HTMLElement;
 const temperature = document.getElementById("temp") as HTMLElement;
 const time = document.getElementById("time") as HTMLElement;
@@ -54,6 +72,9 @@ const weatherIcon = document.getElementById("weather-icon") as HTMLImageElement;
 const nextCityBtn = document.getElementById("next-city-btn") as HTMLButtonElement;
 const contentHolder = document.querySelector(".content") as HTMLElement; //first
 
+/*------------------------------------ 
+    SYMBOL CODE MAPPING
+ --------------------------------------*/
 const symbolCodeMap: any = {
   1: "Clear sky",
   2: "Nearly clear sky",
@@ -84,39 +105,48 @@ const symbolCodeMap: any = {
   27: "Heavy snow",
 };
 
+/*------------------------------------ 
+    CONSTANS / HELPERS
+ --------------------------------------*/
 const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-
+// ---- Keep track of which city is currently shown
 let currentCityIndex = 0;
 let place = places[currentCityIndex];
+
+/*------------------------------------ 
+    FETCH & DISPLAY WEATHER
+ --------------------------------------*/
 
 const fetchWeather = async () => {
   const weatherURL = `https://opendata-download-metfcst.smhi.se/api/category/snow1g/version/1/geotype/point/lon/${place.lon}/lat/${place.lat}/data.json`;
 
-  // Fetch the weather JSON data from the SMHI API
+  // ---- Fetch the weather JSON data from the SMHI API
   const response = await fetch(weatherURL);
-  // If something went wrong (e.g., 404 or 500), throw an error
   if (!response.ok) {
     alert("Failed to fetch weather data for this location.");
   }
-  // Parse the JSON response and cast it to our SmhiResponse type
+
+  // ---- Parse the JSON response and cast it to our SmhiResponse type
   const data: ApiResponse = await response.json();
-  // Get the first time step (usually the current or next available forecast)
   const currentTimeWeather: TimeSeries = data?.timeSeries[0];
   const temp = Math.round(currentTimeWeather.data.air_temperature);
   const symbol = currentTimeWeather.data.symbol_code;
-  const symbolDescription = symbolCodeMap[symbol] ?? "Unknown"; //description
+  const symbolDescription = symbolCodeMap[symbol] ?? "Unknown"; // fallback if code not found
 
+  // ---- Update current city & temperature in the UI
   city.textContent = place.name;
   temperature.textContent = `${temp}`;
 
+  // ---- Format and display the current time
   let currentHours = new Date().getHours().toLocaleString();
   currentHours = ("0" + currentHours).slice(-2);
   let currentMinutes = new Date().getMinutes().toLocaleString();
   currentMinutes = ("0" + currentMinutes).slice(-2);
   time.textContent = `Time: ${currentHours}:${currentMinutes} `; //Date requirement
 
-  description.textContent = symbolDescription; //description requirement
+  description.textContent = symbolDescription;  // ---- Update textual weather description
 
+  // Choose day/night icon set and optionally switch to dark theme
   const isItDayTime = currentHours >= "06" && currentHours <= "18";
   if (isItDayTime) {
     weatherIcon.src = `./weather_icons/centered/solid/day/${("0" + symbol.toString()).slice(-2)}.svg`;
@@ -125,17 +155,22 @@ const fetchWeather = async () => {
     weatherIcon.src = `./weather_icons/centered/solid/night/${("0" + symbol.toString()).slice(-2)}.svg`;
   }
 
+
+  /*------------------------------------ 
+    5-DAY FORECAST RENDERING
+ --------------------------------------*/
   const now = new Date(); // current time
   const cutoff = new Date(now.getTime() + 5 * 24 * 60 * 60 * 1000); // 5 days from now
   const forecastData: forecastData[] = data.timeSeries.filter(ts => new Date(ts.time) <= cutoff);
 
+  // Select entries for midday (12:00 UTC) only
   let fiveDaysForecast = forecastData.map((dayForecast: forecastData) => {
-    if (now.getDate() + 1 < new Date(dayForecast.time).getDate() + 1) {
-      if (new Date(dayForecast.time).getUTCHours() === 12) {
+    if (now.getDate() + 1 < new Date(dayForecast.time).getDate() + 1) { // Ensure the item is in the future (beyond "today")
+      if (new Date(dayForecast.time).getUTCHours() === 12) { // Select the midday (12:00 UTC) record for that day
         if (dayForecast !== undefined) {
           return {
             day: dayNames[new Date(dayForecast.time).getUTCDay()].substring(0, 3),
-            temperature: Math.round(dayForecast.data.air_temperature),
+            temperature: Math.round(dayForecast.data.air_temperature), //Round to no decimals
             weatherIcon: `./weather_icons/centered/solid/${isItDayTime ? 'day' : 'night'}/${("0" + dayForecast.data.symbol_code.toString()).slice(-2)}.svg`,
             windSpeed: dayForecast.data.wind_speed
           };
@@ -144,7 +179,9 @@ const fetchWeather = async () => {
       return;
     }
   });
-  fiveDaysForecast = fiveDaysForecast.filter(a => a !== undefined);
+  fiveDaysForecast = fiveDaysForecast.filter(a => a !== undefined);  // Remove undefined entries (days where no 12:00 UTC record was found)
+
+  // Clear and append forecast items as <ul> elements
   forecast.innerHTML = ""; // Clear previous forecast entries
   fiveDaysForecast.forEach((dayForecast) => {
     const listItem = document.createElement("ul");
@@ -158,10 +195,18 @@ const fetchWeather = async () => {
   });
 }
 
+/*------------------------------------ 
+    BUTTON EVENTS 
+--------------------------------------*/
+// When user clicks the next city button, show the next place
 nextCityBtn.addEventListener("click", () => {
   currentCityIndex = (currentCityIndex + 1) % places.length;
   place = places[currentCityIndex];
   fetchWeather();
 });
 
+/*------------------------------------ 
+ INITIALIZATION
+--------------------------------------*/
+// Load first city's weather on page load
 fetchWeather();
