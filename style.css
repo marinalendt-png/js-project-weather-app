@@ -37,6 +37,7 @@ body {
 }
 
 .content-dark {
+  height: 390px;
   position: relative;
   grid-area: 1 / 1 / 2 / 2;
   background: linear-gradient(135deg, #222350, #6264A2);
