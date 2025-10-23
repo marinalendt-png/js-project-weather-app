@@ -1,5 +1,5 @@
 /*------------------------------------ 
-   INTERFACES
+  INTERFACES
  --------------------------------------*/
 interface ApiResponse {
   timeSeries: TimeSeries[];
@@ -18,9 +18,8 @@ interface forecastData {
   data: Data;
 }
 
-
 /*------------------------------------ 
-    STATIC PLACES
+  STATIC PLACES
  --------------------------------------*/
 const places = [
   {
@@ -61,7 +60,7 @@ const places = [
 ]
 
 /*------------------------------------ 
-    DOM ELEMENTS
+  DOM ELEMENTS
  --------------------------------------*/
 const city = document.getElementById("city") as HTMLElement;
 const temperature = document.getElementById("temp") as HTMLElement;
@@ -73,7 +72,7 @@ const nextCityBtn = document.getElementById("next-city-btn") as HTMLButtonElemen
 const contentHolder = document.querySelector(".content") as HTMLElement; //first
 
 /*------------------------------------ 
-    SYMBOL CODE MAPPING
+  SYMBOL CODE MAPPING
  --------------------------------------*/
 const symbolCodeMap: any = {
   1: "Clear sky",
@@ -106,7 +105,7 @@ const symbolCodeMap: any = {
 };
 
 /*------------------------------------ 
-    CONSTANS / HELPERS
+  CONSTANS / HELPERS
  --------------------------------------*/
 const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 // ---- Keep track of which city is currently shown
@@ -114,7 +113,7 @@ let currentCityIndex = 0;
 let place = places[currentCityIndex];
 
 /*------------------------------------ 
-    FETCH & DISPLAY WEATHER
+  FETCH & DISPLAY WEATHER
  --------------------------------------*/
 
 const fetchWeather = async () => {
@@ -155,7 +154,6 @@ const fetchWeather = async () => {
     weatherIcon.src = `./weather_icons/centered/solid/night/${("0" + symbol.toString()).slice(-2)}.svg`;
   }
 
-
   /*------------------------------------ 
     5-DAY FORECAST RENDERING
  --------------------------------------*/
@@ -195,8 +193,8 @@ const fetchWeather = async () => {
   });
 }
 
-/*------------------------------------ 
-    BUTTON EVENTS 
+/*------------------------------------  
+  BUTTON EVENTS 
 --------------------------------------*/
 // When user clicks the next city button, show the next place
 nextCityBtn.addEventListener("click", () => {
@@ -206,7 +204,7 @@ nextCityBtn.addEventListener("click", () => {
 });
 
 /*------------------------------------ 
- INITIALIZATION
+  INITIALIZATION
 --------------------------------------*/
 // Load first city's weather on page load
 fetchWeather();
