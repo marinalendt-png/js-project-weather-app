@@ -155,10 +155,10 @@ const fetchWeather = async () => {
   }
 
   /*------------------------------------ 
-    5-DAY FORECAST RENDERING
+    FORECAST RENDERING
  --------------------------------------*/
   const now = new Date(); // current time
-  const cutoff = new Date(now.getTime() + 5 * 24 * 60 * 60 * 1000); // 5 days from now
+  const cutoff = new Date(now.getTime() + 5 * 24 * 60 * 60 * 1000); // today and the next five days
   const forecastData: forecastData[] = data.timeSeries.filter(ts => new Date(ts.time) <= cutoff);
 
   // Select entries for midday (12:00 UTC) only
