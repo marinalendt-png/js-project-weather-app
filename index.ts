@@ -178,22 +178,6 @@ const fetchWeather = async () => {
     return undefined;
   }); 
 
-  // Select entries for midday (12:00 UTC) only
-  let fiveDaysForecast1 = forecastData.map((dayForecast: forecastData) => {
-    if (now.getDate() + 1 < new Date(dayForecast.time).getDate() + 1) { // Ensure the item is in the future (beyond "today")
-      if (new Date(dayForecast.time).getUTCHours() === 12) { // Select the midday (12:00 UTC) record for that day
-        if (dayForecast !== undefined) {
-          return {
-            day: dayNames[new Date(dayForecast.time).getUTCDay()].substring(0, 3),
-            temperature: Math.round(dayForecast.data.air_temperature), //Round to no decimals
-            weatherIcon: `./weather_icons/centered/solid/${isItDayTime ? 'day' : 'night'}/${("0" + dayForecast.data.symbol_code.toString()).slice(-2)}.svg`,
-            windSpeed: dayForecast.data.wind_speed
-          };
-        }
-      }
-      return;
-    }
-  });
   fiveDaysForecast = fiveDaysForecast.filter(a => a !== undefined);  // Remove undefined entries (days where no 12:00 UTC record was found)
 
   // Clear and append forecast items as <ul> elements
