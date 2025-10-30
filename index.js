@@ -135,13 +135,28 @@ const fetchWeather = () => __awaiter(void 0, void 0, void 0, function* () {
         weatherIcon.src = `./weather_icons/centered/solid/night/${("0" + symbol.toString()).slice(-2)}.svg`;
     }
     /*------------------------------------
-      5-DAY FORECAST RENDERING
+      FORECAST RENDERING
    --------------------------------------*/
     const now = new Date(); // current time
-    const cutoff = new Date(now.getTime() + 5 * 24 * 60 * 60 * 1000); // 5 days from now
+    const cutoff = new Date(now.getTime() + 5 * 24 * 60 * 60 * 1000); // today and the next five days
     const forecastData = data.timeSeries.filter(ts => new Date(ts.time) <= cutoff);
-    // Select entries for midday (12:00 UTC) only
     let fiveDaysForecast = forecastData.map((dayForecast) => {
+        const forecastDate = new Date(dayForecast.time);
+        const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+        if (forecastDate >= new Date(today.getTime() + 24 * 60 * 60 * 1000)) {
+            if (forecastDate.getUTCHours() === 12) {
+                return {
+                    day: dayNames[forecastDate.getUTCDay()].substring(0, 3),
+                    temperature: Math.round(dayForecast.data.air_temperature),
+                    weatherIcon: `./weather_icons/centered/solid/${isItDayTime ? 'day' : 'night'}/${("0" + dayForecast.data.symbol_code.toString()).slice(-2)}.svg`,
+                    windSpeed: dayForecast.data.wind_speed
+                };
+            }
+        }
+        return undefined;
+    });
+    // Select entries for midday (12:00 UTC) only
+    let fiveDaysForecast1 = forecastData.map((dayForecast) => {
         if (now.getDate() + 1 < new Date(dayForecast.time).getDate() + 1) { // Ensure the item is in the future (beyond "today")
             if (new Date(dayForecast.time).getUTCHours() === 12) { // Select the midday (12:00 UTC) record for that day
                 if (dayForecast !== undefined) {
